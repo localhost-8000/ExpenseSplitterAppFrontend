@@ -46,7 +46,7 @@ function MainPage() {
         <div className="main-container">
             <div className="main-container-wrapper">
                 <div className="main-heading">
-                    <h3>Create New Event</h3>
+                    <h3>Create New Group</h3>
                 </div>
                 <div className="main-form-container">
                     <form action="" className="grp-form">
@@ -71,7 +71,7 @@ function MainPage() {
                         
                         <Button variant="outlined" id="form-add-btn" onClick={handleAdd}>Add more participants</Button>
                         <div className="form-btns">
-                            <Button variant="cotained" id="submit-btn">Create event</Button>
+                            <Button variant="cotained" id="submit-btn">Create group</Button>
                             <Button variant="outlined" id="cancel-btn">Cancel</Button>
 
                         </div>

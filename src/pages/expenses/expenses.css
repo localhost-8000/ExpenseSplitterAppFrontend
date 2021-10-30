@@ -25,7 +25,7 @@
     width: 100%;
     padding: 10px 20px;
     border-radius: 12px;
-    box-shadow: 0 0 2px 0 black;
+    box-shadow: 0 0 10px 1px #00000038;
 }
 
 .left-list {
@@ -35,6 +35,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+.list-add-btn {
+    justify-content: flex-start;
+}
+.list-add-name {
+    font-size: 17px;
+    font-weight: bold;
+    margin-left: 10px;
 }
 
 .list-item-name {

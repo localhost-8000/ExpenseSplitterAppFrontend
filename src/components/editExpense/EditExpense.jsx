@@ -1,18 +1,66 @@
-import { Checkbox, Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@material-ui/core";
+import { Button, Checkbox, Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@material-ui/core";
+import { Delete } from "@material-ui/icons";
 import { useState } from "react";
 import "./editExpense.css";
 
-const userList = ["Rahul Tiwari", "Ankur", "Pramil", "Rohit"]
+const userList = [
+    {
+        name: "Rahul Tiwari",
+        share: 0
+    },
+    {
+        name: "Ankur",
+        share: 0
+    },
+    {
+        name: "Pramil",
+        share: 0
+    },
+    {
+        name: "Rohit",
+        share: 0
+    }
+]
 
 export default function EditExpense() {
     const [checked, setChecked] = useState(true);
+    const [expenseName, setExpenseName] = useState("");
+    const [userExpenses, setUserExpenses] = useState(userList);
+
+    const handleShareChange = (event, idx) => {
+        const values = [...userExpenses];
+        values[idx].share = event.target.value;
+        userList[idx].share = event.target.value;
+        setUserExpenses(values);
+    }
+
+    const handleSubmit = () => {
+        let sum = 0;
+        userExpenses.map(({name, share}) => {
+            sum += share;
+        });
+        if(sum !== 100) {
+            alert("Sum of share is not 100%");
+        } else {
+
+        }
+
+    }
+
     return (
         <div className="edit-expense-container">
             <div className="edit-heading">
-                <h3>Edit expense</h3>
+                <TextField 
+                    id="standard-basic" 
+                    variant="standard" 
+                    label="Expense Name"
+                    value={expenseName}
+                    onChange={e => setExpenseName(e.target.value)}
+                />
             </div>
             <div className="edit-content">
                 <div className="top-bar">
+                    <span>Split Equally</span>
                     <Checkbox 
                         checked={checked}
                         onChange={() => setChecked(!checked)}
@@ -25,21 +73,21 @@ export default function EditExpense() {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Participant Name</TableCell>
+                                    <TableCell style={{fontWeight: "bold"}}>Participant Name</TableCell>
                                     {!checked && (
-                                        <TableCell align="right">Share in split (%)</TableCell>
+                                        <TableCell align="right" style={{fontWeight: "bold"}}>Share in split (%)</TableCell>
                                     )}
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {userList.map((user, idx) => (
+                                {userList.map(({name, share}, idx) => (
                                     <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell component="th" scope="row">
-                                            {user}
+                                            {name}
                                         </TableCell>
                                         {!checked && (
                                             <TableCell align="right">
-                                                <Input type="number"/>
+                                                <input type="number" name="" id="" className="split-input" value={share} onChange={event => handleShareChange(event, idx)}/>
                                             </TableCell>
                                         )}
                                     </TableRow>
@@ -47,6 +95,15 @@ export default function EditExpense() {
                             </TableBody>
                         </Table>
                     </TableContainer>
+                </div>
+                <div className="edit-btns">
+                    <div className="edit-submit-btns">
+                        <Button variant="contained" color="primary">Update</Button>
+                        <Button variant="text" color="primary" style={{marginLeft: "8px"}}>Cancel</Button>
+                    </div>
+                    <div className="edit-right-btn">
+                        <Button variant="contained" style={{backgroundColor: "#D62F2F", color: "white"}} color="error" startIcon={<Delete />}>Delete</Button>
+                    </div>
                 </div>
             </div>
         </div>

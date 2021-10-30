@@ -1,11 +1,15 @@
 .edit-expense-container {
-    /* border: 1px solid black; */
+    box-shadow: 0 0 10px 1px #00000038;
     border-radius: 12px;
     width: 100%;
     margin-top: 55px;
     margin-left: 40px;
+    padding: 10px 20px;
 }
 
+.edit-heading {
+    margin: 10px 0;
+}
 
 .top-bar {
     width: 100%;
@@ -13,3 +17,22 @@
     justify-content: flex-end;
     align-items: center;
 }
+
+.split-input {
+    border: none;
+    border-bottom: 1px solid black;
+    width: 80px;
+}
+
+.split-input:focus {
+    outline: none;
+
+}
+
+.edit-btns {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
