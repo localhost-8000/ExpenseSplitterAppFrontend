@@ -1,5 +1,5 @@
 import "./mainPage.css";
-import {InputLabel, InputAdornment, FilledInput, FormControl, TextField, Button, IconButton } from "@material-ui/core"
+import { TextField, Button, IconButton, CircularProgress } from "@material-ui/core"
 import { DeleteOutline } from "@material-ui/icons"
 import { useState } from "react";
 import axios from "axios";
@@ -9,7 +9,8 @@ function MainPage() {
     const history = useHistory();
     const [groupName, setGroupName] = useState("");
     const [admin, setAdmin] = useState({});
-    const [fields, setFields] = useState([{ nameValue: null, emailValue: null }])
+    const [fields, setFields] = useState([{ nameValue: null, emailValue: null }]);
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleAdminNameChange = e => {
         const curr = admin;
@@ -45,36 +46,48 @@ function MainPage() {
         setFields(values);
     }
 
+    console.log('fields: ', fields);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsLoading(true);
+
         let temp = [{
             "name": admin.name,
             "email": admin.email
         }];
-        fields.map(data => {
+
+        
+        fields.forEach(data => {
+            console.log('name', data.nameValue);
             temp.push({
-                "name": data.name,
-                "email": data.email
+                "name": data.nameValue,
+                "email": data.emailValue
             });
         })
+        console.log(temp)
         let data = {
             "name": groupName,
             "people": temp
         }
 
+        console.log(data);
         axios({
             method: 'post',
             data: data,
+            headers: {
+                'Content-Type': 'application/json'
+            },
             url: "https://split-expense-server.herokuapp.com/group/new-group"
         }).then(result => {
             alert(result.data.message);
-            console.log(result.data);
-            history.push(`/expenses/${result.data.newGroup._id}`)
+            const data = result.data.newGroup;
+            history.push(`/expenses/${data._id}`);
         })
         .catch(err => {
             alert(err.message);
+            setIsLoading(false);
         })
-        
     }
 
     return (
@@ -106,7 +119,9 @@ function MainPage() {
                         
                         <Button variant="outlined" id="form-add-btn" onClick={handleAdd}>Add more participants</Button>
                         <div className="form-btns">
-                            <Button variant="cotained" id="submit-btn" type="submit">Create group</Button>
+                            <Button variant="contained" id="submit-btn" type="submit" color="primary">
+                                {isLoading ? <CircularProgress  size="25px" style={{color: "white"}}/> : "Create group"}
+                            </Button>
                             <Button variant="outlined" id="cancel-btn">Cancel</Button>
 
                         </div>

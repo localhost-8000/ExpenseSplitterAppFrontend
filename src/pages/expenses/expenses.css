@@ -4,10 +4,17 @@
     align-items: center;
 }
 
+.grp-name {
+    position: absolute;
+    top: 30px;
+    left: 10px;
+}
+
 .expenses-wrapper {
     padding: 40px 20px;
     width: 100%;
     display: flex;
+    margin-top: 50px;
 }
 
 .expenses-left {
@@ -37,6 +44,14 @@
     justify-content: space-between;
 }
 
+.left-list:hover {
+    background-color: rgba(88, 88, 88, 0.082);
+}
+
+.list-add-btn:hover {
+    background-color: transparent;
+}
+
 .list-add-btn {
     justify-content: flex-start;
 }
@@ -64,5 +79,5 @@
 }
 
 .expenses-right {
-    width: 500px;
+    width: 700px;
 }

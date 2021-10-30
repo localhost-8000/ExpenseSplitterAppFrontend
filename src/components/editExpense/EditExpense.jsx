@@ -1,31 +1,23 @@
-import { Button, Checkbox, Input, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@material-ui/core";
+import { Button, Checkbox, Input, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from "@material-ui/core";
 import { Delete } from "@material-ui/icons";
 import { useState } from "react";
+import axios from "axios";
 import "./editExpense.css";
 
-const userList = [
-    {
-        name: "Rahul Tiwari",
-        share: 0
-    },
-    {
-        name: "Ankur",
-        share: 0
-    },
-    {
-        name: "Pramil",
-        share: 0
-    },
-    {
-        name: "Rohit",
-        share: 0
-    }
-]
 
-export default function EditExpense({ events, setAddExpense, setEvents }) {
+export default function EditExpense({ setAddExpense, groupData }) {
+    const userList = groupData.people.map(user => {
+        return {
+            "name": user.name,
+            "share": 0
+        }
+    });
+
     const [checked, setChecked] = useState(true);
     const [expenseName, setExpenseName] = useState("");
     const [userExpenses, setUserExpenses] = useState(userList);
+    const [amount, setAmount] = useState(null);
+    const [paidBy, setPaidBy] = useState(0);
 
     const handleShareChange = (event, idx) => {
         const values = [...userExpenses];
@@ -42,15 +34,29 @@ export default function EditExpense({ events, setAddExpense, setEvents }) {
         if(!checked && sum !== 100) {
             alert("Sum of share is not 100%");
         } else {
-            const uid = Date.now();
             let data = {
-                expenseName: expenseName,
-                id: uid,
-                values: [...userExpenses]
+                title: expenseName,
+                groupId: groupData._id,
+                whoPaid: userList[paidBy].name,
+                price: amount,
+                category: "",
+                splitEqual: checked,
             }
-            const curr = events;
-            curr.push(data);
-            setEvents(curr);
+            if(!checked) {
+                data.split = [...userExpenses]
+            }
+            axios({
+                method: 'post',
+                url: 'https://split-expense-server.herokuapp.com/transaction/new-transaction',
+                data: data
+            }).then(result => {
+                alert(result.data.message);
+                const newTransaction = result.data.newTransaction;
+                console.log(result.data);
+            })
+            .catch(err => {
+                alert(err.message);
+            })
         }
         setAddExpense(false);
 
@@ -65,7 +71,25 @@ export default function EditExpense({ events, setAddExpense, setEvents }) {
                     label="Expense Name"
                     value={expenseName}
                     onChange={e => setExpenseName(e.target.value)}
+                    style={{margin: "5px 0"}}
+                    required
                 />
+                <TextField 
+                    id="standard-basic"
+                    variant="standard"
+                    label="Total Amount (Rs.)"
+                    value={amount}
+                    onChange={(e) => setAmount(e.target.value)}
+                    style={{margin: "5px 0"}}
+                    required
+                    type="number"
+                />
+                <InputLabel id="paidby">Paid By</InputLabel>
+                <Select labelId="paidby" label="Paid By" value={paidBy} onChange={e => setPaidBy(e.target.value)} style={{margin: "5px 0"}}>
+                    {userList.map((user, idx) => (
+                        <MenuItem value={idx} key={idx}>{user.name}</MenuItem>
+                    ))}
+                </Select>
             </div>
             <div className="edit-content">
                 <div className="top-bar">
@@ -89,7 +113,7 @@ export default function EditExpense({ events, setAddExpense, setEvents }) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {userList.map(({name, share}, idx) => (
+                                {userExpenses.map(({name, share}, idx) => (
                                     <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell component="th" scope="row">
                                             {name}

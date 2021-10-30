@@ -1,0 +1,12 @@
+.transaction-container {
+    box-shadow: 0 0 10px 1px #00000038;
+    border-radius: 12px;
+    width: 100%;
+    margin-top: 55px;
+    margin-left: 40px;
+    padding: 10px 20px;
+}
+
+.settle-table {
+    margin-top: 10px;
+}
