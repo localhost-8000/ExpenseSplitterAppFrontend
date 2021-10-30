@@ -22,7 +22,7 @@ const userList = [
     }
 ]
 
-export default function EditExpense() {
+export default function EditExpense({ events, setAddExpense, setEvents }) {
     const [checked, setChecked] = useState(true);
     const [expenseName, setExpenseName] = useState("");
     const [userExpenses, setUserExpenses] = useState(userList);
@@ -39,11 +39,20 @@ export default function EditExpense() {
         userExpenses.map(({name, share}) => {
             sum += share;
         });
-        if(sum !== 100) {
+        if(!checked && sum !== 100) {
             alert("Sum of share is not 100%");
         } else {
-
+            const uid = Date.now();
+            let data = {
+                expenseName: expenseName,
+                id: uid,
+                values: [...userExpenses]
+            }
+            const curr = events;
+            curr.push(data);
+            setEvents(curr);
         }
+        setAddExpense(false);
 
     }
 
@@ -98,8 +107,8 @@ export default function EditExpense() {
                 </div>
                 <div className="edit-btns">
                     <div className="edit-submit-btns">
-                        <Button variant="contained" color="primary">Update</Button>
-                        <Button variant="text" color="primary" style={{marginLeft: "8px"}}>Cancel</Button>
+                        <Button variant="contained" color="primary" onClick={handleSubmit}>Create</Button>
+                        <Button variant="text" color="primary" style={{marginLeft: "8px"}} onClick={() => setAddExpense(false)}>Cancel</Button>
                     </div>
                     <div className="edit-right-btn">
                         <Button variant="contained" style={{backgroundColor: "#D62F2F", color: "white"}} color="error" startIcon={<Delete />}>Delete</Button>

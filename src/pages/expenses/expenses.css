@@ -36,9 +36,11 @@
     align-items: center;
     justify-content: space-between;
 }
+
 .list-add-btn {
     justify-content: flex-start;
 }
+
 .list-add-name {
     font-size: 17px;
     font-weight: bold;

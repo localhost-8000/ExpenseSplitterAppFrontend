@@ -2,9 +2,12 @@ import "./mainPage.css";
 import {InputLabel, InputAdornment, FilledInput, FormControl, TextField, Button, IconButton } from "@material-ui/core"
 import { DeleteOutline } from "@material-ui/icons"
 import { useState } from "react";
+import axios from "axios";
+import { useHistory } from "react-router-dom";
 
 function MainPage() {
-    const [eventName, setEventName] = useState("");
+    const history = useHistory();
+    const [groupName, setGroupName] = useState("");
     const [admin, setAdmin] = useState({});
     const [fields, setFields] = useState([{ nameValue: null, emailValue: null }])
 
@@ -42,6 +45,38 @@ function MainPage() {
         setFields(values);
     }
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        let temp = [{
+            "name": admin.name,
+            "email": admin.email
+        }];
+        fields.map(data => {
+            temp.push({
+                "name": data.name,
+                "email": data.email
+            });
+        })
+        let data = {
+            "name": groupName,
+            "people": temp
+        }
+
+        axios({
+            method: 'post',
+            data: data,
+            url: "https://split-expense-server.herokuapp.com/group/new-group"
+        }).then(result => {
+            alert(result.data.message);
+            console.log(result.data);
+            history.push(`/expenses/${result.data.newGroup._id}`)
+        })
+        .catch(err => {
+            alert(err.message);
+        })
+        
+    }
+
     return (
         <div className="main-container">
             <div className="main-container-wrapper">
@@ -49,18 +84,18 @@ function MainPage() {
                     <h3>Create New Group</h3>
                 </div>
                 <div className="main-form-container">
-                    <form action="" className="grp-form">
-                        <TextField id="standard-basic" label="Event Name" className="event-name" variant="standard" value={eventName} onChange={e => setEventName(e.target.value)} />
+                    <form className="grp-form" onSubmit={(e) => handleSubmit(e)}>
+                        <TextField id="standard-basic" label="Event Name" className="event-name" variant="standard" value={groupName} onChange={e => setGroupName(e.target.value)} required/>
                         <div className="participant-field">
-                            <TextField id="standard-basic" label="Participant Name" variant="standard" className="first-field" onChange={handleAdminNameChange}/>
-                            <TextField id="standard-basic" label="Participant Email" variant="standard" className="first-field" onChange={handleAdminEmailChange}/>
+                            <TextField id="standard-basic" label="Participant Name" variant="standard" className="first-field" onChange={handleAdminNameChange} required/>
+                            <TextField id="standard-basic" label="Participant Email" variant="standard" className="first-field" onChange={handleAdminEmailChange} type="email" required/>
                         </div>
                     
                         {fields.map((field, idx) => {
                             return (
                                 <div key={`${field}-${idx}`} className="participant-field">
-                                    <TextField id="standard-basic" label="Participant Name" variant="standard" className="extra-field" onChange={e => handleNameChange(idx, e)}/>
-                                    <TextField id="standard-basic" label="Participant Email" variant="standard" className="extra-field" onChange={e => handleEmailChange(idx, e)}/>
+                                    <TextField id="standard-basic" label="Participant Name" variant="standard" className="extra-field" onChange={e => handleNameChange(idx, e)} required/>
+                                    <TextField id="standard-basic" label="Participant Email" variant="standard" className="extra-field" onChange={e => handleEmailChange(idx, e)} type="email" required/>
                                     <IconButton aria-label="delete" onClick={() => handleRemove(idx)} style={{marginBottom: "-12px", marginLeft: "-20px"}}>
                                         <DeleteOutline color="red"/>
                                     </IconButton>
@@ -71,7 +106,7 @@ function MainPage() {
                         
                         <Button variant="outlined" id="form-add-btn" onClick={handleAdd}>Add more participants</Button>
                         <div className="form-btns">
-                            <Button variant="cotained" id="submit-btn">Create group</Button>
+                            <Button variant="cotained" id="submit-btn" type="submit">Create group</Button>
                             <Button variant="outlined" id="cancel-btn">Cancel</Button>
 
                         </div>

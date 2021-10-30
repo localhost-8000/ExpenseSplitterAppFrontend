@@ -15,7 +15,7 @@ function App() {
                     <MainPage />
                 </Route>
 
-                <Route path="/expenses">
+                <Route path="/expenses/:id">
                     <Expenses />
                 </Route>
             </Switch>
