@@ -9,7 +9,7 @@ export default function EditExpense({ setAddExpense, groupData }) {
     const userList = groupData.people.map(user => {
         return {
             "name": user.name,
-            "share": 0
+            "percentageShare": 0
         }
     });
 
@@ -21,16 +21,17 @@ export default function EditExpense({ setAddExpense, groupData }) {
 
     const handleShareChange = (event, idx) => {
         const values = [...userExpenses];
-        values[idx].share = event.target.value;
-        userList[idx].share = event.target.value;
+        values[idx].percentageShare = Number(event.target.value);
+        userList[idx].percentageShare = Number(event.target.value);
         setUserExpenses(values);
     }
 
     const handleSubmit = () => {
         let sum = 0;
-        userExpenses.map(({name, share}) => {
-            sum += share;
+        userExpenses.map(({name, percentageShare}) => {
+            sum += Number(percentageShare);
         });
+
         if(!checked && sum !== 100) {
             alert("Sum of share is not 100%");
         } else {
@@ -38,17 +39,21 @@ export default function EditExpense({ setAddExpense, groupData }) {
                 title: expenseName,
                 groupId: groupData._id,
                 whoPaid: userList[paidBy].name,
-                price: amount,
+                price: Number(amount),
                 category: "",
                 splitEqual: checked,
             }
             if(!checked) {
                 data.split = [...userExpenses]
             }
+            console.log(data)
             axios({
                 method: 'post',
-                url: 'https://split-expense-server.herokuapp.com/transaction/new-transaction',
-                data: data
+                data: data,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                url: 'https://split-expense-server.herokuapp.com/transaction/new-transaction'
             }).then(result => {
                 alert(result.data.message);
                 const newTransaction = result.data.newTransaction;
@@ -113,14 +118,14 @@ export default function EditExpense({ setAddExpense, groupData }) {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {userExpenses.map(({name, share}, idx) => (
+                                {userExpenses.map(({name, percentageShare}, idx) => (
                                     <TableRow key={idx} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         <TableCell component="th" scope="row">
                                             {name}
                                         </TableCell>
                                         {!checked && (
                                             <TableCell align="right">
-                                                <input type="number" name="" id="" className="split-input" value={share} onChange={event => handleShareChange(event, idx)}/>
+                                                <input type="number" name="" id="" className="split-input" value={percentageShare} onChange={event => handleShareChange(event, idx)}/>
                                             </TableCell>
                                         )}
                                     </TableRow>
