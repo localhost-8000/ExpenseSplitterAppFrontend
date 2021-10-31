@@ -56,8 +56,7 @@ export default function EditExpense({ setAddExpense, groupData }) {
                 url: 'https://split-expense-server.herokuapp.com/transaction/new-transaction'
             }).then(result => {
                 alert(result.data.message);
-                const newTransaction = result.data.newTransaction;
-                console.log(result.data);
+                window.location.reload()
             })
             .catch(err => {
                 alert(err.message);
