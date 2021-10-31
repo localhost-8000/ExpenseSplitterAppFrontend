@@ -19,7 +19,7 @@ function App() {
 
                 <Route path="/expenses/:id">
                     <Expenses />
-                </Route>
+                </Route>                
             </Switch>
         </Router>
 

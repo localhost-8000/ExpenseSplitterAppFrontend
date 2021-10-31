@@ -18,6 +18,7 @@ import Remove from "@material-ui/icons/Remove";
 import SaveAlt from "@material-ui/icons/SaveAlt";
 import Search from "@material-ui/icons/Search";
 import ViewColumn from "@material-ui/icons/ViewColumn";
+import BASE_URL from "./../../config"
 
 const tableIcons = {
     Add: forwardRef((props, ref) => <AddBox {...props} ref={ref} />),
@@ -59,12 +60,10 @@ export default function ViewTransaction({ data }) {
             money : Number(money)
         }
 
-        console.log(obj)
-
 
         axios({
             method: 'post',
-            url: 'https://split-expense-server.herokuapp.com/transaction/settle/' + data._id,
+            url: `${BASE_URL}/transaction/settle/${data._id}`,
             headers: {
                 'Content-Type': 'application/json'
             },

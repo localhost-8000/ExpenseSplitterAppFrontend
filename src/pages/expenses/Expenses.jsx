@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import EditExpense from "../../components/editExpense/EditExpense";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import BASE_URL from "./../../config"
 
 import "./expenses.css";
 import ViewTransaction from "../../components/viewTransaction/ViewTransaction";
@@ -27,7 +28,7 @@ export default function Expenses() {
         const fetchData = async () => {
             axios({
                 method: 'get',
-                url: 'https://split-expense-server.herokuapp.com/group/' + groupId,
+                url: `${BASE_URL}/group/${groupId}`,
             })
                 .then(result => {
                     setGroups(result.data);
@@ -43,7 +44,7 @@ export default function Expenses() {
         const fetchExpenseData = async () => {
             axios({
                 method: 'get',
-                url: 'https://split-expense-server.herokuapp.com/transaction/' + groupId
+                url: `${BASE_URL}/transaction/${groupId}`
             })
                 .then(result => {
                     setTransactions(result.data);

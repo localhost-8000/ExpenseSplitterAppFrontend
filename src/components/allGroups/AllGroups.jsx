@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import './allgroups.css'
 import axios from 'axios';
-
+import BASE_URL from "./../../config"
 
 function AllGroups() {
 
@@ -13,7 +13,7 @@ function AllGroups() {
     useEffect(() => {
         axios({
             method: 'get',
-            url: 'https://split-expense-server.herokuapp.com/group/',
+            url: `${BASE_URL}/group/`,
         })
             .then(result => {
                 setAllGroups(result.data)

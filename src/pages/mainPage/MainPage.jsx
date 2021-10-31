@@ -5,6 +5,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
 import AllGroups from "../../components/allGroups/AllGroups";
+import BASE_URL from "./../../config"
 
 function MainPage() {
     const history = useHistory();
@@ -79,7 +80,7 @@ function MainPage() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: "https://split-expense-server.herokuapp.com/group/new-group"
+            url: `${BASE_URL}/group/new-group`
         }).then(result => {
             alert(result.data.message);
             const data = result.data.newGroup;

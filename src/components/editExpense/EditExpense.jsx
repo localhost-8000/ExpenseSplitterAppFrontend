@@ -3,6 +3,7 @@ import { Delete } from "@material-ui/icons";
 import { useState } from "react";
 import axios from "axios";
 import "./editExpense.css";
+import BASE_URL from "./../../config"
 
 
 export default function EditExpense({ setAddExpense, groupData }) {
@@ -53,7 +54,7 @@ export default function EditExpense({ setAddExpense, groupData }) {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                url: 'https://split-expense-server.herokuapp.com/transaction/new-transaction'
+                url: `${BASE_URL}/transaction/new-transaction`
             }).then(result => {
                 alert(result.data.message);
                 window.location.reload()
