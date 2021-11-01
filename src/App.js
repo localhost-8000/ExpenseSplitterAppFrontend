@@ -6,9 +6,11 @@ import {
 
 import Expenses from "./pages/expenses/Expenses";
 import MainPage from "./pages/mainPage/MainPage";
+import "./global.css"
 
 function App() {
     return (
+
         <Router>
             <Switch>
                 <Route exact path="/">
@@ -17,9 +19,10 @@ function App() {
 
                 <Route path="/expenses/:id">
                     <Expenses />
-                </Route>
+                </Route>                
             </Switch>
         </Router>
+
     );
 }
 

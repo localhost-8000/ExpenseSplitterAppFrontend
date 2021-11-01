@@ -4,6 +4,8 @@ import { DeleteOutline } from "@material-ui/icons"
 import { useState } from "react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
+import AllGroups from "../../components/allGroups/AllGroups";
+import BASE_URL from "./../../config"
 
 function MainPage() {
     const history = useHistory();
@@ -78,7 +80,7 @@ function MainPage() {
             headers: {
                 'Content-Type': 'application/json'
             },
-            url: "https://split-expense-server.herokuapp.com/group/new-group"
+            url: `${BASE_URL}/group/new-group`
         }).then(result => {
             alert(result.data.message);
             const data = result.data.newGroup;
@@ -92,13 +94,19 @@ function MainPage() {
 
     return (
         <div className="main-container">
+            <h1 className="header">Expense Split</h1>
             <div className="main-container-wrapper">
                 <div className="main-heading">
+                    
                     <h3>Create New Group</h3>
                 </div>
+
                 <div className="main-form-container">
+                    <div className="all-groups">
+                        <AllGroups />
+                    </div>
                     <form className="grp-form" onSubmit={(e) => handleSubmit(e)}>
-                        <TextField id="standard-basic" label="Event Name" className="event-name" variant="standard" value={groupName} onChange={e => setGroupName(e.target.value)} required/>
+                        <TextField id="standard-basic" label="Group Name" className="event-name" variant="standard" value={groupName} onChange={e => setGroupName(e.target.value)} required/>
                         <div className="participant-field">
                             <TextField id="standard-basic" label="Participant Name" variant="standard" className="first-field" onChange={handleAdminNameChange} required/>
                             <TextField id="standard-basic" label="Participant Email" variant="standard" className="first-field" onChange={handleAdminEmailChange} type="email" required/>

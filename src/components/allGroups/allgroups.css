@@ -1,0 +1,22 @@
+.main{
+    display: flex;
+    flex-direction: column;
+}
+
+.main h2{
+    text-decoration: underline;
+    margin-bottom: 18px;
+}
+.link{
+    
+    padding-left: 15px;
+    margin: 5px 0;
+    padding: 6px 12px;
+    box-shadow: 0 0 10px 1px #00000038;
+    border-radius: 6px;
+
+}
+
+.pointer{
+    cursor: pointer;
+}

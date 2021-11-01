@@ -1,39 +1,49 @@
+.header{
+    margin-top: 25px;
+    text-decoration: underline;
+}
 .main-container {
     width: 100vw;
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column;
 }
 
 .main-container-wrapper {
     width: 90%;
-    padding: 50px 100px;
+    padding: 20px 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: space-between;
 }
 
 .main-heading {
-    margin: 40px 0;
+    margin: 40px 0 10px 0;
     padding: 0 10px;
-    border-bottom: 2px solid black;
 }
 .main-heading h3 {
-    font-size: 25px;
+    font-size: 22px;
+    text-decoration: none;
 }
 
 .main-form-container {
     min-width: 300px;
-    width: 60%;
+    width: 100%;
     max-width: 800px;
     display: flex;
-    align-items: center;
-    justify-content: center;
+    /* align-items: center; */
+    /* justify-content: space-around; */
+}
+
+.all-groups{
+    margin-right: 45px;
+    width: 300px;
 }
 
 .grp-form {
-    width: 90%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
